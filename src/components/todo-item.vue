@@ -1,13 +1,14 @@
 <template>
   <div>
-    <div>
-      <input type="radio" class="toggle-complete">
+    <div class="view">
+      <input type="checkbox" class="toggle-complete" v-modal="todo.completed">
       <label @dblclick="editTodo(todo)">{{todo.value}}</label>
       <button class="delete" @click="removeTodo(todo)">X</button>
     </div>
     <input
-      class="hidden"
+      class="edit"
       type="text"
+      v-modal="todo.title"
       @blur="doneEdit(todo)"
       @keyup.enter="doneEdit(todo)"
       @keyup.esc="cancelEdit(todo)">
@@ -16,12 +17,14 @@
 
 <script>
   export default {
-    data() {
-      return {
-        todo: {
-          value: '11'
-        }
+    props: {
+      todo: {
+        type: Object,
+        default: {}
       }
+    },
+    data() {
+      return {}
     },
     watch: {},
     computed: {},

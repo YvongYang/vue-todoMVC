@@ -2,7 +2,7 @@
   <section class="main">
     <ul class="todo-list">
       <li v-for="todo in todos">
-        <TodoItem/>
+        <TodoItem :todo="todo"/>
       </li>
     </ul>
   </section>
@@ -16,13 +16,12 @@ import TodoItem from './todo-item';
       TodoItem
     },
     data: function () {
+      let todoList = localStorage.getItem('TODOS') !== 'undefined' 
+        ? JSON.parse(localStorage.getItem('TODOS'))
+        : [];
+
       return {
-        todos: [
-          {
-            id: '1',
-            value: 'aa'
-          }
-        ]
+        todos: todoList
       }
     }
   };
