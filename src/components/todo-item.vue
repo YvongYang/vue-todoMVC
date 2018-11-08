@@ -38,7 +38,5 @@
 </script>
 
 <style>
-  .hidden {
-    display: none;
-  }
+  
 </style>

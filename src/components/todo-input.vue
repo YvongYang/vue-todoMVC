@@ -8,7 +8,7 @@
     <input class="new-todo"
       autofocus 
       placeholder="What needs to be done?"
-      v-model="newTodo"
+      v-model.trim="newTodo"
       @keyup.enter="addTodo">
   </section>
 </template>
@@ -22,8 +22,16 @@
     },
 
     methods: {
-      addTodo() {},
-      toggleAll() {}
+      addTodo() {
+        const value = this.newTodo;
+        
+        if (!value) {
+          return;
+        }
+
+        
+      },
+      toggleAll() {},
     }
   };
 </script>
