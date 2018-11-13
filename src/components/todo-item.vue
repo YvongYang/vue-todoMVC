@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="view">
-      <input type="checkbox" class="toggle-complete" v-modal="todo.completed">
+      <input type="checkbox" class="toggle" v-model="todo.completed">
       <label @dblclick="editTodo(todo)">{{todo.value}}</label>
       <button class="delete" @click="removeTodo(todo)">X</button>
     </div>
     <input
       class="edit"
       type="text"
-      v-modal="todo.title"
+      v-model="todo.title"
       @blur="doneEdit(todo)"
       @keyup.enter="doneEdit(todo)"
       @keyup.esc="cancelEdit(todo)">
@@ -23,13 +23,10 @@
         default: {}
       }
     },
-    data() {
-      return {}
-    },
-    watch: {},
-    computed: {},
     methods: {
-      editTodo() {},
+      editTodo() {
+
+      },
       doneEdit() {},
       cancelEdit() {},
       removeTodo() {}

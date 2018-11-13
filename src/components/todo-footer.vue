@@ -21,13 +21,10 @@
 
 <script>
   export default {
-    data: function() {
-      let todoList = localStorage.getItem('TODOS') !== 'undefined' 
-      ? JSON.parse(localStorage.getItem('TODOS'))
-      : [];
-
-      return {
-        todos: todoList
+   props: {
+      todos: {
+        type: Array,
+        default: []
       }
     },
     computed: {

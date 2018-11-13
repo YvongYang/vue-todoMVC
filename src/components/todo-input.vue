@@ -15,6 +15,12 @@
 
 <script>
   export default {
+    props: {
+      todos: {
+        type: Array,
+        default: []
+      }
+    },
     data() {
       return {
         newTodo: ''
@@ -29,9 +35,11 @@
           return;
         }
 
-        
+        this.$emit('addTodo', value);
       },
-      toggleAll() {},
+      toggleAll() {}
     }
   };
+
+  //
 </script>
