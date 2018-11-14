@@ -1,9 +1,20 @@
 <template>
   <div class="container">
     <h1>todos</h1>
-    <TodoInput :todos="todos"　v-on:addTodo="onAddTodo" />
-    <TodoList :todos="todos" />
-    <TodoFooter :todos="todos" />
+    <TodoInput 
+      :todos="todos" 
+      v-on:addTodo="onAddTodo"
+      v-on:toggleAll="onToggleAll"
+      />
+    <TodoList 
+      :todos="todos"
+      v-on:editTodo="onEditTodo"
+      v-on:cancelEditTodo="onCancelEditTodo"
+      v-on:removeTodo="onRemoveTodo"
+      />
+    <TodoFooter 
+      :todos="todos"
+     />
   </div>
 </template>
 
@@ -34,7 +45,20 @@
         });
 
         localStorage.setItem('TODOS', JSON.stringify(this.todos))
-      }
+      },
+      onToggleAll() {
+        this.todos = this.todos.map(i => {
+          i.completed = !i.completed;
+
+          return i;
+        });
+      },
+      onEditTodo() {},
+      onCancelEditTodo() {},
+      onRemoveTodo(todo) {
+        // TODO:
+        this.todos.splice(this.todos.indexOf(todo), 1);
+      },
     }
   };
 </script>

@@ -6,7 +6,7 @@
       @click="toggleAll"
     >
     <input class="new-todo"
-      autofocus 
+      autofocus
       placeholder="What needs to be done?"
       v-model.trim="newTodo"
       @keyup.enter="addTodo">
@@ -37,9 +37,9 @@
 
         this.$emit('addTodo', value);
       },
-      toggleAll() {}
+      toggleAll() {
+        this.$emit('toggleAll');
+      }
     }
   };
-
-  //
 </script>

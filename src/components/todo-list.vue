@@ -1,8 +1,8 @@
 <template>
   <section class="main">
     <ul class="todo-list">
-      <li :class="{completed: todo.complete}" v-for="todo in todos">
-        <TodoItem :todo="todo"/>
+      <li v-for="todo in todos" :class="{completed: todo.completed}" :key="todo.id">
+        <TodoItem :todo="todo" v-on:removeTodo="$emit('removeTodo', todo)" />
       </li>
     </ul>
   </section>
@@ -15,7 +15,16 @@ import TodoItem from './todo-item';
     props: {
       todos: {
         type: Array,
-        default: []
+        default: [{
+          todo: {}
+        }]
+      }
+    },
+    watch: {
+      todos() {
+        /* eslint-disable */
+        console.log('Props has changed');
+        /* eslint-enable */
       }
     },
     components: {
