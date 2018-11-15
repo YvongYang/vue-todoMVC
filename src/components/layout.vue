@@ -2,18 +2,19 @@
   <div class="container">
     <h1>todos</h1>
     <TodoInput 
-      :todos="todos" 
+      :todos="filterTodos" 
       v-on:addTodo="onAddTodo"
       v-on:toggleAll="onToggleAll"
       />
     <TodoList 
-      :todos="todos"
+      :todos="filterTodos"
       v-on:editTodo="onEditTodo"
       v-on:cancelEditTodo="onCancelEditTodo"
       v-on:removeTodo="onRemoveTodo"
       />
     <TodoFooter 
-      :todos="todos"
+      :todos="filterTodos"
+      v-on:filterTodos="onFilterTodos"
      />
   </div>
 </template>
@@ -33,7 +34,8 @@
     },
     data() {
       return {
-        todos: getTodos()
+        todos: getTodos(),
+        filterTodos: getTodos()
       }
     },
     methods: {
@@ -59,6 +61,9 @@
         // TODO:
         this.todos.splice(this.todos.indexOf(todo), 1);
       },
+      onFilterTodos(todos) {
+        this.filterTodos = todos;
+      }
     }
   };
 </script>
