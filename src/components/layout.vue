@@ -14,7 +14,8 @@
       />
     <TodoFooter 
       :todos="filterTodos"
-      v-on:filterTodos="onFilterTodos"
+      :filterType="filterType"
+      v-on:changeFilterType="onChangeFilterType"
      />
   </div>
 </template>
@@ -35,10 +36,39 @@
     data() {
       return {
         todos: getTodos(),
-        filterTodos: getTodos()
+        filterTodos: [],
+        filterType: 'all'
+      }
+    },
+    mounted() {
+      this.filterType = window.location.hash.replace(/#\/?/, '');
+      this.getFilterTodos();
+    },
+    watch: {
+      filterType() {
+        this.getFilterTodos();
       }
     },
     methods: {
+      onChangeFilterType(type) {
+        this.filterType = type;
+      },
+      getFilterTodos() {
+        switch(this.filterType) {
+          case 'all':
+            this.filterTodos = this.todos;
+            break;
+          case 'active':
+            this.filterTodos = this.todos.filter(i => !i.completed);
+            break;
+          case 'completed':
+            this.filterTodos = this.todos.filter(i => i.completed);
+            break;
+          default:
+            this.filterTodos = this.todos;
+            break;
+        }
+      },
       onAddTodo(value) {
         this.todos.push({
           id: this.todos.length + 1,
@@ -58,11 +88,7 @@
       onEditTodo() {},
       onCancelEditTodo() {},
       onRemoveTodo(todo) {
-        // TODO:
         this.todos.splice(this.todos.indexOf(todo), 1);
-      },
-      onFilterTodos(todos) {
-        this.filterTodos = todos;
       }
     }
   };

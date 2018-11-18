@@ -18,7 +18,7 @@
     props: {
       todos: {
         type: Array,
-        default: []
+        default: () => []
       }
     },
     data() {

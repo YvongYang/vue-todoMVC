@@ -3,14 +3,14 @@
   <footer class="footer">
     <span class="total-left">{{remaining.length}} item left</span>
     <ul class="filter-list">
-      <li class="filter-item" :click="filterTodos()" :class="{active: filterType === 'all'}">
+      <li class="filter-item" @click="$emit('changeFilterType', 'all')" :class="{active: filterType === 'all'}">
         <a href="#/all">All</a>
       </li>
-      <li class="filter-item" :click="filterTodos()" :class="{active: filterType === 'active'}">
+      <li class="filter-item" @click="$emit('changeFilterType', 'active')" :class="{active: filterType === 'active'}">
         <a href="#/active">Active</a>
       </li>
-      <li class="filter-item" :click="filterTodos()" :class="{active: filterType === 'completed'}">
-        <a href="#/active">completed</a>
+      <li class="filter-item" @click="$emit('changeFilterType', 'completed')" :class="{active: filterType === 'completed'}">
+        <a href="#/completed">completed</a>
       </li>
     </ul>
     <button class="clear-completed" v-show="remaining.length < todos.length">
@@ -24,43 +24,16 @@
    props: {
       todos: {
         type: Array,
-        default: []
+        default: () => []
+      },
+      filterType: {
+        type: String,
+        default: 'all'
       }
-    },
-    data() {
-      return {
-        filterType: this.getFilterType() || 'all'
-      };
     },
     computed: {
       remaining() {
         return this.todos.filter(i => !i.completed)
-      }
-    },
-    methods: {
-      filterTodos() {
-        let filterTodos = null;
-
-        switch(this.filterType) {
-          case 'all':
-            filterTodos = this.todos;
-            break;
-          case 'active':
-            filterTodos = this.todos.filter(i => !i.completed);
-            break;
-          case 'completed':
-            filterTodos = this.todos.filter(i => i.completed);
-            break;
-          default:
-            filterTodos = this.todos;
-            break;
-
-          this.filterType = type;
-          this.emit('filterTodos', filterTodos);
-        }
-      },
-      getFilterType() {
-        return window.location.hash.replace(/#\/?/, '');
       }
     }
   };

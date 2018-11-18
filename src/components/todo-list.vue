@@ -15,7 +15,7 @@ import TodoItem from './todo-item';
     props: {
       todos: {
         type: Array,
-        default: [{
+        default: () => [{
           todo: {}
         }]
       }
