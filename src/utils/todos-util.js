@@ -5,3 +5,7 @@ export function getTodos() {
         ? JSON.parse(localStorage.getItem(TODOS))
         : [];
 }
+
+export function setTodos(todos) {
+  localStorage.setItem('TODOS', JSON.stringify(todos));
+}

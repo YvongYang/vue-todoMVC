@@ -9,13 +9,13 @@
     <TodoList 
       :todos="filterTodos"
       v-on:editTodo="onEditTodo"
-      v-on:cancelEditTodo="onCancelEditTodo"
       v-on:removeTodo="onRemoveTodo"
       />
     <TodoFooter 
       :todos="filterTodos"
       :filterType="filterType"
       v-on:changeFilterType="onChangeFilterType"
+      v-on:clearCompleted="onClearCompleted"
      />
   </div>
 </template>
@@ -25,7 +25,7 @@
   import TodoList from './todo-list';
   import TodoFooter from './todo-footer';
 
-  import {getTodos} from '../utils/todos-util';
+  import {getTodos, setTodos} from '../utils/todos-util';
 
   export default {
     components: {
@@ -46,6 +46,9 @@
     },
     watch: {
       filterType() {
+        this.getFilterTodos();
+      },
+      todos() {
         this.getFilterTodos();
       }
     },
@@ -76,19 +79,39 @@
           completed: false
         });
 
-        localStorage.setItem('TODOS', JSON.stringify(this.todos))
+        setTodos(this.todos);
       },
-      onToggleAll() {
+      onToggleAll(toggle) {
         this.todos = this.todos.map(i => {
-          i.completed = !i.completed;
+          i.completed = toggle;
 
           return i;
         });
       },
-      onEditTodo() {},
-      onCancelEditTodo() {},
+      onEditTodo(todo) {
+        this.todos =  this.todos.map(i => {
+          if (i.id === todo.id) {
+            i = todo;
+          }
+
+          return i;
+        });
+
+        setTodos(this.todos);
+      },
       onRemoveTodo(todo) {
         this.todos.splice(this.todos.indexOf(todo), 1);
+
+        setTodos(this.todos);
+      },
+      onClearCompleted() {
+        this.todos = this.todos.map(i => {
+          i.completed = false;
+
+          return i;
+        });
+
+        setTodos(this.todos);
       }
     }
   };

@@ -2,7 +2,11 @@
   <section class="main">
     <ul class="todo-list">
       <li v-for="todo in todos" :class="{completed: todo.completed}" :key="todo.id">
-        <TodoItem :todo="todo" v-on:removeTodo="$emit('removeTodo', todo)" />
+        <TodoItem 
+          :todo="todo" 
+          v-on:removeTodo="$emit('removeTodo', todo)" 
+          v-on:editTodo="$emit('editTodo', todo)"
+        />
       </li>
     </ul>
   </section>

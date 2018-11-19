@@ -13,7 +13,7 @@
         <a href="#/completed">completed</a>
       </li>
     </ul>
-    <button class="clear-completed" v-show="remaining.length < todos.length">
+    <button class="clear-completed" v-show="remaining.length < todos.length" @click="$emit('clearCompleted')">
       clear completed
     </button>
   </footer>

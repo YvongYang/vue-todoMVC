@@ -3,6 +3,7 @@
     <input
       class="toggle-all"
       type="checkbox"
+      v-model="checkAllValue"
       @click="toggleAll"
     >
     <input class="new-todo"
@@ -23,7 +24,8 @@
     },
     data() {
       return {
-        newTodo: ''
+        newTodo: '',
+        checkAllValue: false
       };
     },
 
@@ -35,10 +37,12 @@
           return;
         }
 
+        this.newTodo = '';
+
         this.$emit('addTodo', value);
       },
       toggleAll() {
-        this.$emit('toggleAll');
+        this.$emit('toggleAll', !this.checkAllValue);
       }
     }
   };

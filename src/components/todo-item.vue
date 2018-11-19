@@ -1,6 +1,6 @@
 <template>
   <div class="view">
-    <input type="checkbox" class="toggle" v-model="todo.completed">
+    <input type="checkbox" class="toggle" v-model="todo.completed" @click="toggleTodo">
     <input
       v-if="isEditing"
       class="edit"
@@ -37,6 +37,7 @@
       doneEdit(newTodo) {
         this.isEditing = false;
         this.todo = newTodo;
+        this.$emit('editTodo', this.todo);        
       },
       cancelEdit() {
         this.isEditing = false;
@@ -44,6 +45,10 @@
       },
       removeTodo(todo) {
         this.$emit('removeTodo', todo);
+      },
+      toggleTodo() {
+        this.todo.completed = !this.todo.completed;
+        this.$emit('editTodo', this.todo);
       }
     }
   };
