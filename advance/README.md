@@ -1,6 +1,6 @@
 # advance
 
-> A Vue.js project
+> A project is used to practise my vue's skill which refers to this project.(https://github.com/liangxiaojuan/vue-todos)
 
 ## Build Setup
 
