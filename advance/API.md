@@ -42,12 +42,8 @@ params: {
 data: []
 ```
 
-> 3./todo/deleteTodo (post)
+> 3./todo/deleteTodo/{id} (put)
 ```
-params: {
-  id: String
-}
-
 data: []
 ```
 
@@ -73,12 +69,8 @@ params: {
 data: {}
 ```
 
-> 2./todo/deleteRecord (post)
+> 2./todo/deleteRecord/{id} (put)
 ```
-params: {
-  id: String
-}
-
 data: {}
 ```
 
