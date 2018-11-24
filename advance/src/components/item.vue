@@ -5,9 +5,9 @@
 <template>
 <div class="list-item editingClass editing">
   <label class="checkbox">
-    <input type="checkbox" checked="checked">
+    <input type="checkbox" checked="item.checked">
   </label>
-  <input type="text" placeholder="Please Input">
+  <input type="text" placeholder="Please Input" v-model="item.text">
   <a class="delete-item">
     <i class="icon-trash"></i>
   </a>
@@ -15,5 +15,12 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    item: {
+      type: Object,
+      default: {}
+    }
+  }
+};
 </script>

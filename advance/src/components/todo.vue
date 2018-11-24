@@ -8,24 +8,27 @@
   <div class="page lists-show">
     <nav>
       <h1 class="title-page">
-        <span class="title-wrapper">Amy</span> 
-        <span class="count-list">1</span>
+        <span class="title-wrapper">{{todo.title}}</span> 
+        <span class="count-list">{{todo.count}}</span>
       </h1>
       <div class="nav-group right">
         <a class="nav-item">
-          <span class="icon-lock"></span>
+          <span class="icon-lock" v-if="todo.isLocked"></span>
+          <span class="icon-unlock" v-else></span>
         </a>
         <a class="nav-item">
-          <span class="icon-lock"></span>
+          <span class="icon-trash"></span>
         </a>
       </div>
       <div class="form todo-new input-symbol">
-        <input type="text" placeholder='请输入' />
+        <input type="text" placeholder='请输入' v-model="text" @keyup.enter="onAdd" :disabled="todo.locked" />
         <span class="icon-add"></span>
       </div>
     </nav>
     <div class="content-scrollable list-items">
-      <item></item>
+      <div v-for="item in todo.records">
+        <item :item="item"></item>
+      </div>
     </div>
   </div>
 </template>
@@ -36,6 +39,32 @@ import item from './item';
 export default {
   components: {
     item
+  },
+  data() {
+    return {
+      todo: {
+        id: '111',
+        title: 'Grace',
+        isLocked: true,
+        count: 5,
+        records: [{
+          id: '112',
+          text: 'Grace-yang',
+          checked: false
+        }]
+      },
+      text: ''
+    }
+  },
+  method: {
+    onAdd() {
+      this.todo.records.push({
+        text: this.text,
+        checked: false
+      });
+
+      this.text = '';
+    }
   }
 };
 </script>
