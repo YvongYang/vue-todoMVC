@@ -56,7 +56,7 @@ export default {
       text: ''
     }
   },
-  method: {
+  methods: {
     onAdd() {
       this.todo.records.push({
         text: this.text,
