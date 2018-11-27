@@ -17,23 +17,20 @@
 </template>
 
 <script>
+import { getTodoList, addTodo } from '../api/api'; 
+
 export default {
   data() {
     return {
-      todos: [
-        {
-          id: '111',
-          title: 'Grace',
-          isLocked: true,
-          count: 5,
-          records: [{
-            id: '112',
-            text: 'Grace-yang',
-            checked: false
-          }]
-        }
-      ]
+      todos: []
     };
+  },
+  created() {
+    getTodoList().then(res => {
+      const TODOS = res.data.todos;
+      this.todos = TODOS;
+      this.todoId = TODOS[0].id;
+    });
   }
 };
 </script>
