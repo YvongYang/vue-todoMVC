@@ -4,12 +4,12 @@
 
 <template>
   <div class="list-todos">
-    <a class="list-todo activeListClass list" v-for="todo in todos">
+    <a @click="goList(todo.id)" class="list-todo activeListClass list" :class="{'active': currentTodoId === todo.id}" v-for="todo in todos">
       <i class="icon-lock" v-if="todo.isLocked"></i>
-      <span class="count-list">{{todo.count}}</span>
+      <span class="count-list" v-if="todo.count > 0">{{todo.count}}</span>
       {{todo.title}}
     </a>
-    <a class="link-list-new">
+    <a class="link-list-new" @click="addTodo">
       <i class="icon-plus"></i>
       新增
     </a>
@@ -22,15 +22,33 @@ import { getTodoList, addTodo } from '../api/api';
 export default {
   data() {
     return {
-      todos: []
+      todos: [],
+      currentTodoId: ''
     };
   },
   created() {
     getTodoList().then(res => {
       const TODOS = res.data.todos;
       this.todos = TODOS;
-      this.todoId = TODOS[0].id;
+      this.currentTodoId = TODOS[0].id;
     });
+  },
+  watch: {
+    currentTodoId() {
+      this.$router.push({name: 'TODO', params: {id: this.currentTodoId}});
+    }
+  },
+  methods: {
+    goList(id) {
+      this.currentTodoId = id;
+    },
+    addTodo() {
+      addTodo().then(res => {
+        const TODOS = res.data.todos;
+        this.todos = TODOS;
+        this.currentTodoId = TODOS[TODOS.length - 1].id;
+      });
+    }
   }
 };
 </script>

@@ -3,11 +3,9 @@ import MockAdapter from 'axios-mock-adapter'
 import Mock from 'mockjs'
 import {
   Todos
-} from './data/todoList' // 导入Todos数据
+} from './data/todoList'
+
 export default {
-  /**
-   * mock start
-   */
   start () { // 初始化函数
     let mock = new MockAdapter(axios) // 创建 MockAdapter 实例
 
@@ -39,15 +37,32 @@ export default {
       Todos.push({
         id: Mock.Random.guid(),
         title: 'newList',
-        isDelete: false,
-        locked: false,
-        record: []
+        isLocked: false
       })
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve([200])
+          resolve([200, {
+            todos: Todos
+          }])
         }, 200)
       })
     })
+
+    mock.onGet('todo/id').reply(config => {
+      const {id} = config.params
+      let todo = Todos.find(todo => id && todo.id === id)
+
+      todo.count = todo.records.filter(i => i.checked === false).length
+
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve([200, {
+            todo: todo
+          }])
+        }, 200)
+      })
+    })
+
+    mock.onPost('todo/addRecord').reply(() => {})
   }
 }
