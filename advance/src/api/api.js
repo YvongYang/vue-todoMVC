@@ -10,6 +10,12 @@ export const addTodo = params => {
   return axios.post(`/todo/addTodo`, params)
 }
 
-export const getTodo = () => {}
+export const getTodo = params => {
+  return axios.get(`/todo/id`, {
+    params: params
+  })
+}
 
-export const addRecord = () => {}
+export const addRecord = params => {
+  return axios.post(`/todo/addRecord`, params)
+}

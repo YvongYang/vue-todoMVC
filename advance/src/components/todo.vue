@@ -35,6 +35,7 @@
 
 <script>
 import item from './item';
+import {getTodo} from '../api/api';
 
 export default {
   components: {
@@ -43,18 +44,18 @@ export default {
   data() {
     return {
       todo: {
-        id: '111',
-        title: 'Grace',
-        isLocked: true,
-        count: 5,
-        records: [{
-          id: '112',
-          text: 'Grace-yang',
-          checked: false
-        }]
       },
       text: ''
     }
+  },
+  watch: {
+    '$route.params.id'() {
+      // 监听$route.params.id的变化，如果这个id即代表用户点击了其他的待办项需要重新请求数据。
+      this.init();
+    }
+  },
+  created() {
+    this.init();
   },
   methods: {
     onAdd() {
@@ -64,6 +65,13 @@ export default {
       });
 
       this.text = '';
+    },
+    init() {
+      const id = this.$route.params.id
+    
+      getTodo(id).then(res => {
+        this.todo = res.data.todo;
+      });
     }
   }
 };

@@ -49,20 +49,39 @@ export default {
     })
 
     mock.onGet('todo/id').reply(config => {
-      const {id} = config.params
+      const id = config.params
       let todo = Todos.find(todo => id && todo.id === id)
 
-      todo.count = todo.records.filter(i => i.checked === false).length
+      if (todo) {
+        todo.count = todo.records.filter(i => i.checked === false).length
+      }
 
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve([200, {
-            todo: todo
+            todo: todo || {}
           }])
         }, 200)
       })
     })
 
-    mock.onPost('todo/addRecord').reply(() => {})
+    mock.onPost('todo/addRecord').reply((config) => {
+      const {text, id} = config.params
+      const todo = Todos.find(todo => id && todo.id === id)
+
+      todo.records.push({
+        id: Mock.Random.guid(),
+        text: text,
+        checked: false
+      })
+
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve([200, {
+            todos: Todos
+          }])
+        }, 200)
+      })
+    })
   }
 }
