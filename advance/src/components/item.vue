@@ -3,12 +3,13 @@
 </style>
 
 <template>
-<div class="list-item editingClass editing">
+<div class="list-item editingClass editing" :class="{checked: item.checked}">
   <label class="checkbox">
-    <input type="checkbox" checked="item.checked">
+    <input type="checkbox" v-model="item.checked" name="checked" @change="onChange" :disabled="isLocked">
+    <span class="checkbox-custom"></span>
   </label>
-  <input type="text" placeholder="Please Input" v-model="item.text">
-  <a class="delete-item">
+  <input type="text" placeholder="Please Input" v-model="item.text" :disabled="item.checked || isLocked" :keyup:enter="onChange">
+  <a class="delete-item" v-if="item.checked && !isLocked" @click="onDelete">
     <i class="icon-trash"></i>
   </a>
 </div>
@@ -19,7 +20,25 @@ export default {
   props: {
     item: {
       type: Object,
-      default: {}
+      default() {
+        return {
+          text: '',
+          checked: false
+        }
+      }
+    },
+    index: {},
+    id: {},
+    isLocked: {}
+  },
+  methods: {
+    onChange() {
+      //TODO: request api
+      // editRecord()
+    },
+    onDelete() {
+      //TODO:
+      // deleteRecord()
     }
   }
 };

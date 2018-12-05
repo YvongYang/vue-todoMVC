@@ -7,16 +7,26 @@
 <template>
   <div class="page lists-show">
     <nav>
-      <h1 class="title-page">
+      <div class="form list-edit-form" v-show="isEditing">
+        <!-- 当用户点击标题进入修改状态，就显示当前内容可以修改 -->
+        <input type="text" v-model="todo.title" @keyup.enter="updateTitle" :disabled="todo.isLocked">
+        <div class="nav-group right">
+          <a class="nav-item" @click="isEditing = false">
+            <span class="icon-close">
+            </span>
+          </a>
+        </div>
+      </div>
+      <h1 class="title-page" v-show="!isEditing" @click="isEditing = true">
         <span class="title-wrapper">{{todo.title}}</span> 
         <span class="count-list">{{todo.count}}</span>
       </h1>
-      <div class="nav-group right">
-        <a class="nav-item">
+      <div class="nav-group right" v-show="!isEditing">
+        <a class="nav-item" @click="onLock">
           <span class="icon-lock" v-if="todo.isLocked"></span>
           <span class="icon-unlock" v-else></span>
         </a>
-        <a class="nav-item">
+        <a class="nav-item" :click="onDelete">
           <span class="icon-trash"></span>
         </a>
       </div>
@@ -26,8 +36,8 @@
       </div>
     </nav>
     <div class="content-scrollable list-items">
-      <div v-for="item in todo.records">
-        <item :item="item"></item>
+      <div v-for="(item, index) in todo.records">
+        <item :item="item" :id="todo.id" :isLocked="todo.isLocked" :index="index"></item>
       </div>
     </div>
   </div>
@@ -35,7 +45,7 @@
 
 <script>
 import item from './item';
-import {getTodo} from '../api/api';
+import {getTodo, addRecord} from '../api/api';
 
 export default {
   components: {
@@ -45,7 +55,8 @@ export default {
     return {
       todo: {
       },
-      text: ''
+      text: '',
+      isEditing: false
     }
   },
   watch: {
@@ -59,9 +70,11 @@ export default {
   },
   methods: {
     onAdd() {
-      this.todo.records.push({
-        text: this.text,
-        checked: false
+      const text = this.text;
+      const id = this.$route.params.id;
+
+      addRecord(text, id).then((res) => {
+        this.todo = res.data.todo;
       });
 
       this.text = '';
@@ -72,6 +85,22 @@ export default {
       getTodo(id).then(res => {
         this.todo = res.data.todo;
       });
+    },
+    updateTodo() {
+      //TODO:
+      // editTodo(this.todo)
+    },
+    updateTitle() {
+      this.updateTodo();
+      this.isEditing = false;
+    },
+    onLock() {
+      this.todo.locked = !this.todo.locked;
+      this.updateTodo();
+    },
+    onDelete() {
+      //TODO:
+      //deleteTodo()
     }
   }
 };

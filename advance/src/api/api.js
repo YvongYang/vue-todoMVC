@@ -16,6 +16,6 @@ export const getTodo = params => {
   })
 }
 
-export const addRecord = params => {
-  return axios.post(`/todo/addRecord`, params)
+export const addRecord = (text, id) => {
+  return axios.post(`/todo/addRecord`, {text, id})
 }

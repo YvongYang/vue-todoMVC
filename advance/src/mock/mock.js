@@ -66,7 +66,7 @@ export default {
     })
 
     mock.onPost('todo/addRecord').reply((config) => {
-      const {text, id} = config.params
+      const {text, id} = JSON.parse(config.data)
       const todo = Todos.find(todo => id && todo.id === id)
 
       todo.records.push({
@@ -78,7 +78,7 @@ export default {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve([200, {
-            todos: Todos
+            todo: todo
           }])
         }, 200)
       })
