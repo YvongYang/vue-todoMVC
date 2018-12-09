@@ -17,21 +17,35 @@
 </template>
 
 <script>
-import { getTodoList, addTodo } from '../api/api'; 
+// import {addTodo} from '../api/api';
+import {getTodo, addTodo} from '../vuex/actions'; 
 
 export default {
   data() {
     return {
-      todos: [],
       currentTodoId: ''
     };
   },
+  computed: {
+    todos() {
+      return this.$store.getters.getTodoList;
+    }
+  },
   created() {
-    getTodoList().then(res => {
-      const TODOS = res.data.todos;
-      this.todos = TODOS;
-      this.currentTodoId = TODOS[0].id;
-    });
+    this.$store.dispatch('getTodo').then(() => {
+      // Dom 更新之后执行的操作
+      this.$nextTick(() => {
+        if (!this.todos || this.todos.length === 0) {
+          return;
+        }
+        this.goList(this.todos[0].id);
+      })
+    })
+    // getTodoList().then(res => {
+    //   const TODOS = res.data.todos;
+    //   this.todos = TODOS;
+    //   this.currentTodoId = TODOS[0].id;
+    // });
   },
   watch: {
     currentTodoId() {
@@ -43,10 +57,17 @@ export default {
       this.currentTodoId = id;
     },
     addTodo() {
-      addTodo().then(res => {
-        const TODOS = res.data.todos;
-        this.todos = TODOS;
-        this.currentTodoId = TODOS[TODOS.length - 1].id;
+      this.$store.dispatch('newTodo').then(() => {
+        // Dom 更新之后执行的操作
+        this.$nextTick(() => {
+          if (!this.todos || this.todos.length === 0) {
+            return;
+          }
+          this.goList(this.todos[this.todos.length -1].id);
+        })
+        // const TODOS = res.data.todos;
+        // this.todos = TODOS;
+        // this.currentTodoId = TODOS[TODOS.length - 1].id;
       });
     }
   }

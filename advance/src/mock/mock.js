@@ -37,7 +37,8 @@ export default {
       Todos.push({
         id: Mock.Random.guid(),
         title: 'newList',
-        isLocked: false
+        isLocked: false,
+        records: []
       })
       return new Promise((resolve, reject) => {
         setTimeout(() => {
