@@ -1,5 +1,6 @@
 import Express from 'express'
-const app = Express()
+
+const app = new Express()
 
 app.use('/', require('./todo'))
 
