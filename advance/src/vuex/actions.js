@@ -4,10 +4,14 @@ export const getTodo = ({
   commit
 }) => {
   return new Promise((resolve) => {
-    getTodoList().then(res => {
-      commit('UPDATE_TODO', res.data.todos)
-      resolve()
-    })
+    getTodoList()
+      .then(res => {
+        commit('UPDATE_TODO', res.data.todos)
+        resolve()
+      })
+      .catch(err => {
+        console.log(err)
+      })
   })
 }
 
