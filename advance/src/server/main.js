@@ -2,6 +2,11 @@ import Express from 'express'
 
 const app = new Express()
 
+app.all('*', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*')
+  next()
+})
+
 app.use('/', require('./todo'))
 
 // app.get('/todo/list', function (req, res) {

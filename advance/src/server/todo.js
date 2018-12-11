@@ -1,7 +1,7 @@
 import Express from 'express'
 import {
   Todos
-} from './data/todoList'
+} from '../mock/data/todoList'
 
 const router = Express.Router()
 
@@ -18,9 +18,23 @@ router.get('/todo/list', function (req, res) {
     }
   })
 
-  res.send([200, {
-    todos: mockTodo // 返回状态为200，并且返回todos数据
-  }])
+  res.send({
+    todos: mockTodo
+  })
+})
+
+router.get('/todo/id', function (req, res) {
+  console.log('===========todoId: ', req.query.id)
+  const id = req.query.id
+  let todo = Todos.find(todo => id && todo.id === id)
+
+  if (todo) {
+    todo.count = todo.records.filter(i => i.checked === false).length
+  }
+
+  res.send({
+    todo: todo || {}
+  })
 })
 
 module.exports = router

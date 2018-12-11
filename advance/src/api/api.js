@@ -10,9 +10,9 @@ export const addTodo = params => {
   return axios.post(`/todo/addTodo`, params)
 }
 
-export const getTodo = params => {
+export const getTodo = id => {
   return axios.get(`http://localhost:3000/todo/id`, {
-    params: params
+    params: {id: id}
   })
 }
 
