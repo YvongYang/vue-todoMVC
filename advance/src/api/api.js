@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const getTodoList = params => {
-  return axios.get(`http://localhost:3000/todo/list`, {
+  return axios.get(`/todo/list`, {
     params: params
   })
 }
@@ -11,7 +11,7 @@ export const addTodo = params => {
 }
 
 export const getTodo = id => {
-  return axios.get(`http://localhost:3000/todo/id`, {
+  return axios.get(`/todo/id`, {
     params: {id: id}
   })
 }
